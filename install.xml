@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin name="blacklist">
+	<title>Blacklist</title>
+	<summary>Prevents users with listed emails and names from submitting items. Also prevents from submitting listed domains and IP address.</summary>
+	<author>Intelliants LLC</author>
+	<contributor>Intelliants LLC</contributor>
+	<version>3.3</version>
+	<date>2015-08-12</date>
+	<compatibility>3.3</compatibility>
+
+	<adminpages>
+		<page name="blacklist_emails" url="blacklist/emails/" menus="menu" filename="emails">Blocked Emails</page>
+		<page name="blacklist_usernames" url="blacklist/usernames/" menus="menu" filename="usernames">Blocked Usernames</page>
+		<page name="blacklist_domains" url="blacklist/domains/" menus="menu" filename="domains">Blocked Domains</page>
+		<page name="blacklist_ipadresses" url="blacklist/ipadresses/" menus="menu" filename="ipadresses">Blocked IP Adresses</page>
+	</adminpages>
+
+	<actions>
+		<action name="manage_blocked_emails" url="blacklist/emails/" icon="list" pages="blacklist_emails">View</action>
+		<action name="blocked_email_add" url="blacklist/emails/add/" icon="plus" pages="blacklist_emails">Add</action>
+		<action name="manage_blocked_usernames" url="blacklist/usernames/" icon="list" pages="blacklist_usernames">View</action>
+		<action name="blocked_username_add" url="blacklist/usernames/add/" icon="plus" pages="blacklist_usernames">Add</action>
+		<action name="manage_blocked_domains" url="blacklist/domains/" icon="list" pages="blacklist_domains">View</action>
+		<action name="blacklist_domains_add" url="blacklist/domains/add/" icon="plus" pages="blacklist_domains">Add</action>
+		<action name="manage_blocked_ipadresses" url="blacklist/ipadresses/" icon="list" pages="blacklist_ipadresses">View</action>
+		<action name="blacklist_ipadresses_add" url="blacklist/ipadresses/add/" icon="plus" pages="blacklist_ipadresses">Add</action>
+	</actions>
+
+	<phrases>
+		<phrase category="admin" key="add_blocked_domain">Add Domain to Blacklist</phrase>
+		<phrase category="admin" key="add_blocked_email">Add Email to Blacklist</phrase>
+		<phrase category="admin" key="add_blocked_username">Add Username to Blacklist</phrase>
+		<phrase category="admin" key="blocked_domains">Blocked Domains</phrase>
+		<phrase category="admin" key="blocked_emails">Blocked Emails</phrase>
+		<phrase category="admin" key="blocked_usernames">Blocked Usernames</phrase>
+		<phrase category="common" key="domain">Domain</phrase>
+		<phrase category="admin" key="domain_exists">Domain is already exist.</phrase>
+		<phrase category="common" key="domain_is_blocked">This Domain is in the blacklist.</phrase>
+		<phrase category="admin" key="entry_added">Entry added.</phrase>
+		<phrase category="common" key="email_is_blocked">This Email is in the blacklist.</phrase>
+		<phrase category="common" key="email_exists">Email is already exist.</phrase>
+		<phrase category="admin" key="note">Note</phrase>
+		<phrase category="admin" key="ip">IP Address</phrase>
+		<phrase category="admin" key="ip_exists">IP Address is already exist.</phrase>
+		<phrase category="common" key="ip_is_blocked">Your IP address is in the blacklist.</phrase>
+		<phrase category="admin" key="username_exists">Username is already exist.</phrase>
+		<phrase category="common" key="username_is_blocked">This Username is in the blacklist.</phrase>
+
+	</phrases>
+
+	<hooks>
+		<hook name="phpParsePostAfterCheckField" page_type="front" filename="plugins/blacklist/includes/hook.php"><![CDATA[]]></hook>
+	</hooks>
+
+	<install>
+		<sql>
+			<![CDATA[
+CREATE TABLE `{prefix}blocked_emails`(
+`id` int(8) unsigned NOT NULL auto_increment,
+`email` tinytext NOT NULL,
+`member_id` int(8) unsigned NOT NULL,
+`note` text NULL,
+`date` datetime NOT NULL,
+PRIMARY KEY (`id`)
+) {mysql_version};
+			]]>
+		</sql>
+		<sql>
+			<![CDATA[
+CREATE TABLE `{prefix}blocked_usernames`(
+`id` int(8) unsigned NOT NULL auto_increment,
+`username` tinytext NOT NULL,
+`member_id` int(8) unsigned NOT NULL,
+`note` text NULL,
+`date` datetime NOT NULL,
+PRIMARY KEY (`id`)
+) {mysql_version};
+			]]>
+		</sql>
+		<sql>
+			<![CDATA[
+CREATE TABLE `{prefix}blocked_domains`(
+`id` int(8) unsigned NOT NULL auto_increment,
+`domain` tinytext NOT NULL,
+`member_id` int(8) unsigned NOT NULL,
+`note` text NULL,
+`date` datetime NOT NULL,
+PRIMARY KEY (`id`)
+) {mysql_version};
+			]]>
+		</sql>
+		<sql>
+			<![CDATA[
+CREATE TABLE `{prefix}blocked_ipadresses`(
+`id` int(8) unsigned NOT NULL auto_increment,
+`ip` tinytext NOT NULL,
+`member_id` int(8) unsigned NOT NULL,
+`note` text NULL,
+`date` datetime NOT NULL,
+PRIMARY KEY (`id`)
+) {mysql_version};
+			]]>
+		</sql>
+	</install>
+
+	<uninstall>
+		<sql><![CDATA[DROP TABLE IF EXISTS `{prefix}blocked_emails`, `{prefix}blocked_usernames`, `{prefix}blocked_domains`, `{prefix}blocked_ipadresses`]]></sql>
+	</uninstall>
+</plugin>
